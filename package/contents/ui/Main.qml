@@ -54,12 +54,10 @@ Item {
 
 	Plasmoid.fullRepresentation: FullRepresentation {}
 
-	function fetchIssues(repoString, args, callback) {
-		logger.debugJSON('fetchIssues', repoString, args)
-		var url
+	function formatUrl(repoString, args) {
 		var isLocalFile = repoString.indexOf('file://') >= 0
 		if (isLocalFile) { // Testing
-			url = repoString
+			return repoString
 		} else {
 			var baseUrl = 'https://invent.kde.org'
 			var repoPath = repoString // Without leading slash (Eg: User/Repo)
@@ -72,12 +70,33 @@ Item {
 				repoPath = repoString.substr(end + '/'.length)
 				logger.debug(repoString, start, end, baseUrl, repoPath)
 			}
-			url = baseUrl + '/api/v4/projects/' + encodeURIComponent(repoPath) + '/issues'
+			var url = baseUrl + '/api/v4/projects/' + encodeURIComponent(repoPath)
+
+			if (args.mergeRequests) {
+				url += '/merge_requests'
+			} else {
+				url += '/issues'
+			}
+
+			var params = Object.assign({}, args) // shallow copy
+			delete params['mergeRequests']
+			logger.debugJSON('params', params)
 			if (Object.keys(args).length >= 1) {
 				url += '?' + Requests.encodeParams(args)
 			}
 			logger.debug('fetchIssues.url', url)
+			return url
 		}
+	}
+
+	function fetchIssues(repoString, args, callback) {
+		logger.debugJSON('fetchIssues', repoString, args)
+
+		var isLocalFile = repoString.indexOf('file://') >= 0
+
+		// We already generated the url when creating the cacheKey.
+		// var url = formatUrl(repoString, args)
+		var url = args.url
 
 		Requests.getJSON({
 			url: url
@@ -105,7 +124,9 @@ Item {
 
 	function getIssueList(repoString, args, callback) {
 		logger.debugJSON('getIssueList', repoString, args)
-		localDb.getJSON(repoString, function(err, data, row){
+		args.url = formatUrl(repoString, args)
+		var cacheKey = args.url
+		localDb.getJSON(cacheKey, function(err, data, row){
 			logger.debug('getJSON', repoString, data)
 
 			var shouldUpdate = true
@@ -121,7 +142,7 @@ Item {
 
 			if (shouldUpdate) {
 				fetchIssues(repoString, args, function(err, data) {
-					localDb.setJSON(repoString, data, function(err){
+					localDb.setJSON(cacheKey, data, function(err){
 						logger.debug('setJSON', repoString)
 						callback(err, data)
 					})
@@ -153,6 +174,13 @@ Item {
 				state: plasmoid.configuration.issueState,
 				order_by: plasmoid.configuration.issueSort,
 				sort: plasmoid.configuration.issueSortDirection,
+				mergeRequests: false,
+			})
+			var task = getIssueList.bind(null, repoString, {
+				state: plasmoid.configuration.issueState,
+				order_by: plasmoid.configuration.issueSort,
+				sort: plasmoid.configuration.issueSortDirection,
+				mergeRequests: true,
 			})
 			tasks.push(task)
 		}
