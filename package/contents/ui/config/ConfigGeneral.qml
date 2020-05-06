@@ -102,6 +102,17 @@ ConfigPage {
 				}
 			}
 
+			ConfigAppletIcon {
+				Kirigami.FormData.label: i18n("Icon:")
+				configKey: 'icon'
+				defaultValue: 'gitlab-icon-symbolic'
+				presetValues: [
+					'gitlab-icon-symbolic',
+					'gitlab-icon',
+				]
+				Layout.fillWidth: true
+			}
+
 			SpinBox {
 				id: updateIntervalInMinutesSpinBox
 				Kirigami.FormData.label: i18n("Update Every:")
