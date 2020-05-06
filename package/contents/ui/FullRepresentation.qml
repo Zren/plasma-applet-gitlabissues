@@ -25,14 +25,17 @@ IssueListView {
 		issueId: issue.iid
 		issueSummary: issue.title
 		property bool isPullRequest: typeof issue.merge_status !== "undefined"
-		// category: {
-		// 	if (widget.repoStringList.length >= 2) {
-		// 		var repoFullName = issue.repository_url.substr('https://api.github.com/repos/'.length)
-		// 		return repoFullName
-		// 	} else {
-		// 		return ""
-		// 	}
-		// }
+		category: {
+			if (widget.repoStringList.length >= 2) {
+				if (isPullRequest) {
+					return issue.references.full.split('!')[0] // kde/kdeconnect-kde!258
+				} else {
+					return issue.references.full.split('#')[0] // kde/kdeconnect-kde#23
+				}
+			} else {
+				return ""
+			}
+		}
 		issueCreatorName: issue.author.username
 		issueHtmlLink: issue.web_url
 		showNumComments: issue.user_notes_count > 0
