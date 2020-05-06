@@ -21,21 +21,22 @@ IssueListView {
 	}
 
 	delegate: IssueListItem {
-		issueOpen: issue.state == 'open'
-		issueId: issue.number
+		issueOpen: issue.state == 'opened'
+		issueId: issue.iid
 		issueSummary: issue.title
-		category: {
-			if (widget.repoStringList.length >= 2) {
-				var repoFullName = issue.repository_url.substr('https://api.github.com/repos/'.length)
-				return repoFullName
-			} else {
-				return ""
-			}
-		}
-		issueCreatorName: issue.user.login
-		issueHtmlLink: issue.html_url
-		showNumComments: issue.comments > 0
-		numComments: issue.comments
+		property bool isPullRequest: typeof issue.merge_status !== "undefined"
+		// category: {
+		// 	if (widget.repoStringList.length >= 2) {
+		// 		var repoFullName = issue.repository_url.substr('https://api.github.com/repos/'.length)
+		// 		return repoFullName
+		// 	} else {
+		// 		return ""
+		// 	}
+		// }
+		issueCreatorName: issue.author.username
+		issueHtmlLink: issue.web_url
+		showNumComments: issue.user_notes_count > 0
+		numComments: issue.user_notes_count
 
 		dateTime: {
 			if (issueOpen) {
@@ -46,21 +47,18 @@ IssueListView {
 		}
 
 		issueState: {
-			if (issue.pull_request) {
-				if (issue.state == 'open') {
+			if (isPullRequest) {
+				if (issue.state == 'opened') {
 					return 'openPullRequest'
+				} else if (issue.state == 'merged') {
+					return 'merged'
+				// } else if (issue.state == 'locked') {
+				// 	return '...'
 				} else { // 'closed'
-					// Note, there's currently no way to tell if a pull request was merged
-					// or if it was closed. To find that out, we'd need to query 
-					// the pull request api endpoint as well.
-					if (true) { // issue.merged
-						return 'merged'
-					} else {
-						return 'closedPullRequest'
-					}
+					return 'closedPullRequest'
 				}
 			} else {
-				if (issue.state == 'open') {
+				if (issue.state == 'opened') {
 					return 'opened'
 				} else { // 'closed'
 					return 'closed'

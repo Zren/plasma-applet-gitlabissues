@@ -32,7 +32,12 @@ ConfigPage {
 				id: repoListTextField
 				Kirigami.FormData.label: i18n("Repos:")
 				Layout.fillWidth: true
-				placeholderText: i18n("User/Repo\nUser/Repo")
+				placeholderText: {
+					return [
+						'https://invent.kde.org/' + i18n("User/Repo"),
+						'https://invent.kde.org/' + i18n("User/Repo"),
+					].join('\n')
+				}
 				textArea.text: listToStr(cfg_repoList)
 				textArea.onTextChanged: {
 					// console.log('repoListTextField.onTextChanged', textArea.text)
@@ -73,7 +78,7 @@ ConfigPage {
 				Kirigami.FormData.label: i18n("Issues:")
 				configKey: "issueState"
 				model: [
-					{ value: "open", text: i18n("Open Issues") },
+					{ value: "opened", text: i18n("Open Issues") },
 					{ value: "closed", text: i18n("Closed Issues") },
 					{ value: "all", text: i18n("Open + Closed Issues") },
 				]
@@ -84,9 +89,8 @@ ConfigPage {
 				ConfigComboBox {
 					configKey: "issueSort"
 					model: [
-						{ value: "created", text: i18n("Created") },
-						{ value: "updated", text: i18n("Updated") },
-						{ value: "comments", text: i18n("Comments") },
+						{ value: "created_at", text: i18n("Created") },
+						{ value: "updated_at", text: i18n("Updated") },
 					]
 				}
 				ConfigComboBox {

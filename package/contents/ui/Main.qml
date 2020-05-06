@@ -13,7 +13,7 @@ Item {
 
 	Logger {
 		id: logger
-		name: 'githubissues'
+		name: 'gitlabissues'
 		// showDebug: true
 	}
 
@@ -21,7 +21,7 @@ Item {
 	Plasmoid.hideOnWindowDeactivate: !plasmoid.userConfiguring
 
 	readonly property int updateIntervalInMillis: plasmoid.configuration.updateIntervalInMinutes * 60 * 1000
-	readonly property var repoStringRegex: /^([^\/]+)(\/)([^\/]+)$/
+	readonly property var repoStringRegex: /^(((\w+):\/\/)([^\/]+)(\/))?([^\/]+)(\/)([^\/]+)$/
 	readonly property var repoStringList: {
 		var out = []
 		var arr = plasmoid.configuration.repoList
@@ -60,10 +60,19 @@ Item {
 		var isLocalFile = repoString.indexOf('file://') >= 0
 		if (isLocalFile) { // Testing
 			url = repoString
-		// } else if () { // repoString contains two slashes
-			// Eg: domain.com/User/Repo
 		} else {
-			url = 'https://api.github.com/repos/' + repoString + '/issues'
+			var baseUrl = 'https://invent.kde.org'
+			var repoPath = repoString // Without leading slash (Eg: User/Repo)
+
+			var hasDomain = repoString.indexOf('://') >= 0
+			if (hasDomain) { // Eg: https://domain.com/User/Repo
+				var start = repoString.indexOf('://') + '://'.length
+				var end = repoString.indexOf('/', start)
+				baseUrl = repoString.substr(0, end)
+				repoPath = repoString.substr(end + '/'.length)
+				logger.debug(repoString, start, end, baseUrl, repoPath)
+			}
+			url = baseUrl + '/api/v4/projects/' + encodeURIComponent(repoPath) + '/issues'
 			if (Object.keys(args).length >= 1) {
 				url += '?' + Requests.encodeParams(args)
 			}
@@ -142,8 +151,8 @@ Item {
 			var repoString = repoStringList[i]
 			var task = getIssueList.bind(null, repoString, {
 				state: plasmoid.configuration.issueState,
-				sort: plasmoid.configuration.issueSort,
-				direction: plasmoid.configuration.issueSortDirection,
+				order_by: plasmoid.configuration.issueSort,
+				sort: plasmoid.configuration.issueSortDirection,
 			})
 			tasks.push(task)
 		}
@@ -168,9 +177,6 @@ Item {
 	function issueUpdatedDate(issue) {
 		return new Date(issue.updated_at).valueOf()
 	}
-	function issueNumComments(issue) {
-		return issue.comments
-	}
 	function concatLists(arr) {
 		if (arr.length >= 2) {
 			return Array.prototype.concat.apply(arr[0], arr.slice(1))
@@ -185,12 +191,10 @@ Item {
 		var issues = concatLists(results)
 		
 		// Sort issues by creation date descending
-		if (plasmoid.configuration.issueSort == 'created') {
+		if (plasmoid.configuration.issueSort == 'created_at') {
 			issues = issues.sort(function(a, b){ return issueCreatedDate(a) - issueCreatedDate(b) })
-		} else if (plasmoid.configuration.issueSort == 'updated') {
+		} else if (plasmoid.configuration.issueSort == 'updated_at') {
 			issues = issues.sort(function(a, b){ return issueUpdatedDate(a) - issueUpdatedDate(b) })
-		} else if (plasmoid.configuration.issueSort == 'comments') {
-			issues = issues.sort(function(a, b){ return issueNumComments(a) - issueNumComments(b) })
 		}
 
 		if (plasmoid.configuration.issueSortDirection == 'desc') {

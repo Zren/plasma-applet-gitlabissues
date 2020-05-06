@@ -31,12 +31,8 @@ msgid "Repos:"
 msgstr "Repo's:"
 
 #: ../contents/ui/config/ConfigGeneral.qml
-msgid ""
-"User/Repo\n"
-"User/Repo"
-msgstr ""
-"Gebruiker/Repo\n"
-"Gebruiker/Repo"
+msgid "User/Repo"
+msgstr "Gebruiker/Repo"
 
 #: ../contents/ui/config/ConfigGeneral.qml
 msgid "Heading:"

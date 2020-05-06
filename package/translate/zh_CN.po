@@ -30,9 +30,7 @@ msgid "Repos:"
 msgstr ""
 
 #: ../contents/ui/config/ConfigGeneral.qml
-msgid ""
-"User/Repo\n"
-"User/Repo"
+msgid "User/Repo"
 msgstr ""
 
 #: ../contents/ui/config/ConfigGeneral.qml

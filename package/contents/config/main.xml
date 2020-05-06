@@ -10,12 +10,12 @@
 			<default>60</default>
 		</entry>
 		<entry name="issueState" type="string">
-			<!-- enum: open, closed, all -->
-			<default>open</default>
+			<!-- enum: opened, closed, all -->
+			<default>opened</default>
 		</entry>
 		<entry name="issueSort" type="string">
-			<!-- enum: created, updated, comments -->
-			<default>created</default>
+			<!-- enum: created_at, updated_at -->
+			<default>created_at</default>
 		</entry>
 		<entry name="issueSortDirection" type="string">
 			<!-- enum: asc, desc -->
@@ -31,7 +31,7 @@
 			<default></default>
 		</entry>
 		<entry name="icon" type="string">
-			<default>octicon-mark-github</default>
+			<default>gitlab-icon-symbolic</default>
 		</entry>
 
 		<!-- Deprecated in v3 -->
