@@ -4,7 +4,7 @@ A plasma widget that shows a list of recent gitlab issues for a specific repo.
 
 ## Screenshots
 
-![](https://i.imgur.com/A8hO2Vh.png)
+![](https://i.imgur.com/QUK1t6p.png)
 
 ## Translating
 
