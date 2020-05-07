@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
 import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.kirigami 2.3 as Kirigami
+import org.kde.kirigami 2.5 as Kirigami
 
 import "../lib"
 
@@ -27,11 +27,11 @@ ConfigPage {
 
 		Kirigami.FormLayout {
 			Layout.fillWidth: true
-			wideMode: true
 
 			ConfigStringList {
 				id: repoListTextField
 				Kirigami.FormData.label: i18n("Repos:")
+				Layout.preferredWidth: 400 * units.devicePixelRatio
 				Layout.fillWidth: true
 				placeholderText: {
 					return [
