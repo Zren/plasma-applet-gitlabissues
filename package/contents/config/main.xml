@@ -4,6 +4,7 @@
 
 	<group name="General">
 		<entry name="repoList" type="StringList">
+			<!-- Eg: https://invent.kde.org/kde/kdeconnect-kde,https://invent.kde.org/kde/kdenlive -->
 			<default></default>
 		</entry>
 		<entry name="updateIntervalInMinutes" type="int">
