@@ -35,4 +35,4 @@ Or if you know how to make a pull request
 |----------|---------|-------|
 | Template |      26 |       |
 | nl_NL    |   26/26 |  100% |
-| zh_CN    |    9/26 |   34% |
+| zh_CN    |   10/26 |   38% |

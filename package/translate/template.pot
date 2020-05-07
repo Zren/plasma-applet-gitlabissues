@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitlabissues \n"
 "Report-Msgid-Bugs-To: https://github.com/Zren/plasma-applet-gitlabissues\n"
-"POT-Creation-Date: 2020-05-06 18:43-0400\n"
+"POT-Creation-Date: 2020-05-07 14:48-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,9 +75,7 @@ msgid "Descending"
 msgstr ""
 
 #: ../contents/ui/config/ConfigGeneral.qml
-msgid ""
-"Every IP can only perform 60 API requests to GitHub per hour.\n"
-"Each repository listed is 1 request."
+msgid "Icon:"
 msgstr ""
 
 #: ../contents/ui/config/ConfigGeneral.qml
