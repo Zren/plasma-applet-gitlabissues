@@ -176,6 +176,8 @@ Item {
 				sort: plasmoid.configuration.issueSortDirection,
 				mergeRequests: false,
 			})
+			tasks.push(task)
+
 			var task = getIssueList.bind(null, repoString, {
 				state: plasmoid.configuration.issueState,
 				order_by: plasmoid.configuration.issueSort,
