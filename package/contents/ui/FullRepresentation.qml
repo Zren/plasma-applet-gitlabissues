@@ -42,10 +42,22 @@ IssueListView {
 		numComments: issue.user_notes_count
 
 		dateTime: {
-			if (issueOpen) {
-				return issue.created_at
-			} else { // Closed
-				return issue.closed_at
+			if (isPullRequest) {
+				if (issue.state == 'opened') {
+					return issue.created_at
+				} else if (issue.state == 'merged') {
+					return issue.merged_at
+				} else if (issue.state == 'locked') {
+					return issue.created_at
+				} else { // 'closed'
+					return issue.closed_at
+				}
+			} else {
+				if (issue.state == 'opened') {
+					return issue.created_at
+				} else { // 'closed'
+					return issue.closed_at
+				}
 			}
 		}
 
