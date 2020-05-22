@@ -1,4 +1,4 @@
-## v1 - May __ 2020
+## v1 - May 7 2020
 
 * Modify widget to fetch issues and merge_requests.
 * Support multiple GitLab domains.
