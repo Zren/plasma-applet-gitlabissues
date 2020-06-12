@@ -1,3 +1,7 @@
+## v2 - June 12 2020
+
+* Add support for listing a group's issues and merge_requests. Use `https://invent.kde.org/groups/plasma`. Note that you need the extra `groups/` in front of the group name.
+
 ## v1 - May 7 2020
 
 * Modify widget to fetch issues and merge_requests.
