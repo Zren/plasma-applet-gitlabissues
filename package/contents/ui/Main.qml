@@ -70,7 +70,15 @@ Item {
 				repoPath = repoString.substr(end + '/'.length)
 				logger.debug(repoString, start, end, baseUrl, repoPath)
 			}
-			var url = baseUrl + '/api/v4/projects/' + encodeURIComponent(repoPath)
+
+			var url = baseUrl + '/api/v4'
+
+			if (repoPath.indexOf('groups/') == 0) {
+				repoPath = repoPath.substr('groups/'.length)
+				url += '/groups/' + encodeURIComponent(repoPath)
+			} else { // Project
+				url += '/projects/' + encodeURIComponent(repoPath)
+			}
 
 			if (args.mergeRequests) {
 				url += '/merge_requests'

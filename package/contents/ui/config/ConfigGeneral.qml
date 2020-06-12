@@ -28,6 +28,17 @@ ConfigPage {
 		Kirigami.FormLayout {
 			Layout.fillWidth: true
 
+			Label {
+				text: {
+					return [
+						'✅ https://invent.kde.org/' + i18n("User/Repo"),
+						'🚫 https://invent.kde.org/' + i18n("User"),
+						'✅ https://invent.kde.org/groups/plasma',
+						'🚫 https://invent.kde.org/plasma',
+					].join('\n')
+				}
+			}
+
 			ConfigStringList {
 				id: repoListTextField
 				Kirigami.FormData.label: i18n("Repos:")
@@ -37,6 +48,8 @@ ConfigPage {
 					return [
 						'https://invent.kde.org/' + i18n("User/Repo"),
 						'https://invent.kde.org/' + i18n("User/Repo"),
+						'https://invent.kde.org/groups/plasma',
+						'https://invent.kde.org/groups/frameworks',
 					].join('\n')
 				}
 				textArea.text: listToStr(cfg_repoList)
