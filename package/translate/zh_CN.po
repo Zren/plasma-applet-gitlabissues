@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: githubissues \n"
 "Report-Msgid-Bugs-To: https://github.com/Zren/plasma-applet-gitlabissues\n"
-"POT-Creation-Date: 2020-05-07 14:48-0400\n"
+"POT-Creation-Date: 2020-06-11 21:45-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Amane <tobiichiamane@outlook.com>\n"
 "Language-Team: none\n"
@@ -26,11 +26,15 @@ msgid "Debug: LocalDB"
 msgstr ""
 
 #: ../contents/ui/config/ConfigGeneral.qml
-msgid "Repos:"
+msgid "User/Repo"
 msgstr ""
 
 #: ../contents/ui/config/ConfigGeneral.qml
-msgid "User/Repo"
+msgid "User"
+msgstr ""
+
+#: ../contents/ui/config/ConfigGeneral.qml
+msgid "Repos:"
 msgstr ""
 
 #: ../contents/ui/config/ConfigGeneral.qml
