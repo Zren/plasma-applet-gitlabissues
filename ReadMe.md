@@ -19,8 +19,8 @@ See the [package/translate](package/translate) folder for instructions on transl
 ## Notes
 
 * https://docs.gitlab.com/ee/api/issues.html
-	* https://invent.kde.org/api/v4/projects/kde%2Fkdeconnect-kde/issues
+	* https://invent.kde.org/api/v4/projects/multimedia%2Fkdenlive/issues
 	* https://invent.kde.org/api/v4/groups/plasma/issues
 * https://docs.gitlab.com/ee/api/merge_requests.html
-	* https://invent.kde.org/api/v4/projects/kde%2Fkdeconnect-kde/merge_requests
+	* https://invent.kde.org/api/v4/projects/multimedia%2Fkdenlive/merge_requests
 	* https://invent.kde.org/api/v4/groups/plasma/merge_requests
