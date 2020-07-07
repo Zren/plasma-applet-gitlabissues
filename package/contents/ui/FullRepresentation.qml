@@ -20,6 +20,54 @@ IssueListView {
 		}
 	}
 
+	showFilter: plasmoid.configuration.showFilter
+	searchText: plasmoid.configuration.issueSearch
+	onDoSearch: {
+		plasmoid.configuration.issueSearch = searchText
+	}
+	tagModel: {
+		var tags = []
+		tags.push({
+			text: i18n("All"),
+			value: "",
+		})
+		//--- Project / Group Labels
+		// hardcoded for now
+		var labels = [
+			'Approved',
+			'Bugfix',
+			'Documentation',
+			'Enhancement',
+			'Feature',
+			'Needs Changes',
+			'Needs Review',
+			'Noteworthy',
+			'Usability',
+		]
+		for (var i = 0; i < labels.length; i++) {
+			var label = labels[i]
+			tags.push({
+				text: label,
+				value: label, 
+			})
+		}
+		//--- GitLab
+		// Has any label
+		tags.push({
+			text: i18n("Any"),
+			value: "Any", 
+		})
+		// Has no label
+		tags.push({
+			text: i18n("None"),
+			value: "None",
+		})
+		return tags
+	}
+	onTagFilterSelected: {
+		plasmoid.configuration.issueLabels = tag
+	}
+
 	onRefresh: widget.action_refresh()
 
 	errorMessage: widget.errorMessage

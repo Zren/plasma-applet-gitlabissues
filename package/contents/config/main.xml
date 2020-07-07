@@ -32,6 +32,9 @@
 		<entry name="showHeading" type="bool">
 			<default>true</default>
 		</entry>
+		<entry name="showFilter" type="bool">
+			<default>false</default>
+		</entry>
 		<entry name="showBackground" type="bool">
 			<default>true</default>
 		</entry>

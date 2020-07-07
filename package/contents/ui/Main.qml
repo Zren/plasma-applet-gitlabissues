@@ -297,6 +297,8 @@ Item {
 		onIssueStateChanged: deleteCacheAndReload()
 		onIssueSortChanged: deleteCacheAndReload()
 		onIssueSortDirectionChanged: deleteCacheAndReload()
+		onIssueSearchChanged: debouncedUpdateIssuesModel.restart()
+		onIssueLabelsChanged: debouncedUpdateIssuesModel.restart()
 	}
 
 	function action_refresh() {
