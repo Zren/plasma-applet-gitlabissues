@@ -1,4 +1,4 @@
-// Version 4
+// Version 5
 
 import QtQuick 2.0
 import QtQuick.Controls 1.0
@@ -15,6 +15,11 @@ Item {
 	property bool isSetup: false
 	property bool showHeading: true
 	property string headingText: ""
+
+	signal refresh()
+
+	property string errorMessage: ''
+	readonly property bool hasError: !!errorMessage
 
 	property alias delegate: listView.delegate
 
@@ -67,10 +72,40 @@ Item {
 
 	}
 
-	PlasmaComponents.Button {
+	ColumnLayout {
+		id: errorLayout
 		anchors.centerIn: parent
-		visible: !issueListView.isSetup
-		text: plasmoid.action("configure").text
-		onClicked: plasmoid.action("configure").trigger()
+		visible: issueListView.hasError || !issueListView.isSetup
+		spacing: units.largeSpacing
+		width: parent.width
+
+		PlasmaComponents.Label {
+			visible: issueListView.hasError
+			text: issueListView.errorMessage
+			color: PlasmaCore.ColorScope.negativeTextColor
+			Layout.fillWidth: true
+		}
+
+		// MessageWidget {
+		// 	visible: issueListView.hasError
+		// 	text: issueListView.errorMessage
+		// 	messageType: error
+		// 	closeButtonVisible: false
+		// 	Layout.fillWidth: true
+		// }
+
+		PlasmaComponents.Button {
+			visible: !issueListView.isSetup
+			text: plasmoid.action("configure").text
+			onClicked: plasmoid.action("configure").trigger()
+			Layout.alignment: Qt.AlignHCenter
+		}
+
+		PlasmaComponents.Button {
+			visible: issueListView.hasError
+			text: i18n("Refresh")
+			onClicked: issueListView.refresh()
+			Layout.alignment: Qt.AlignHCenter
+		}
 	}
 }

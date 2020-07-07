@@ -24,18 +24,25 @@ Item {
 	readonly property var repoStringRegex: /^(((\w+):\/\/)([^\/]+)(\/))?([^\/]+)(\/)([^\/]+)$/
 	readonly property var repoStringList: {
 		var out = []
+		var skipped = []
 		var arr = plasmoid.configuration.repoList
 		for (var i = 0; i < arr.length; i++) {
 			var repoString = arr[i]
 			repoString = repoString.trim()
 			if (repoString.match(repoStringRegex)) {
 				out.push(repoString)
+			} else if (repoString.trim() == '') { // Empty str
+				// Skip
 			} else {
-				// console.log('repoStringList.skip', i, arr[i])
+				skipped.push(repoString)
 			}
 		}
+		repoStringSkipped = skipped
 		return out
 	}
+	property var repoStringSkipped: []
+
+	property string errorMessage: ''
 
 	property var issuesModel: []
 
@@ -110,12 +117,20 @@ Item {
 			url: url
 		}, function(err, data, xhr){
 			logger.debug('fetchIssues.response.url', url)
-			logger.debug('fetchIssues.response', err, data && data.length)
-			// logger.debugJSON(data)
+			logger.debug('fetchIssues.response.err', xhr.status, err)
+			logger.debugJSON('fetchIssues.response.data.length', data && data.length)
+			// logger.debugJSON('fetchIssues.response.data', data)
 
-			if (isLocalFile) {
+			// GitLab Errors:
+			// https://docs.gitlab.com/ee/api/README.html#status-codes
+
+			if (xhr.status == 0 && isLocalFile) {
 				callback(null, data) // We get HTTP 0 error for a local file, ignore it.
-			} else {
+			} else if (xhr.status == 404 && err) {
+				// 404 Not Found
+				var prettyErr = i18n("Repo '%1' not found.", repoString)
+				callback(prettyErr, data)
+			} else { // Okay response / Unknown error
 				callback(err, data)
 			}
 		})
@@ -150,10 +165,15 @@ Item {
 
 			if (shouldUpdate) {
 				fetchIssues(repoString, args, function(err, data) {
-					localDb.setJSON(cacheKey, data, function(err){
-						logger.debug('setJSON', repoString)
+					if (err) {
+						logger.debug('getIssueList.err', err)
 						callback(err, data)
-					})
+					} else {
+						localDb.setJSON(cacheKey, data, function(err){
+							logger.debug('setJSON', repoString)
+							callback(err, data)
+						})
+					}
 				})
 			} else {
 				callback(err, data)
@@ -174,6 +194,15 @@ Item {
 
 	function updateIssuesModel() {
 		logger.debug('updateIssuesModel')
+
+		// Reset error message.
+		widget.errorMessage = ''
+
+		if (repoStringSkipped.length >= 1) {
+			var validFormat = 'https://invent.kde.org/' + i18n("User/Repo")
+			var prettyErr = i18n("Repo '%1' skipped, uses invalid format. Please use '%2'.", repoStringSkipped[0], validFormat)
+			widget.errorMessage = prettyErr
+		}
 
 		var tasks = []
 		for (var i = 0; i < repoStringList.length; i++) {
@@ -202,10 +231,7 @@ Item {
 		Async.parallel(tasks, function(err, results){
 			logger.debug('Async.parallel.done', err, results && results.length)
 			if (err) {
-				// Skip, keep existing results (we probably hit the rate limit).
-				// A user has 60 requests per hour.
-				// https://developer.github.com/v3/#rate-limiting
-				// TODO: Show overlay error message for user feedback.
+				widget.errorMessage = err
 			} else {
 				// logger.debugJSON(results)
 				parseResults(results)
