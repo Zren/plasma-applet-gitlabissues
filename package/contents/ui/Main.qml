@@ -182,6 +182,8 @@ Item {
 				state: plasmoid.configuration.issueState,
 				order_by: plasmoid.configuration.issueSort,
 				sort: plasmoid.configuration.issueSortDirection,
+				search: plasmoid.configuration.issueSearch,
+				labels: plasmoid.configuration.issueLabels,
 				mergeRequests: false,
 			})
 			tasks.push(task)
@@ -190,6 +192,8 @@ Item {
 				state: plasmoid.configuration.issueState,
 				order_by: plasmoid.configuration.issueSort,
 				sort: plasmoid.configuration.issueSortDirection,
+				search: plasmoid.configuration.issueSearch,
+				labels: plasmoid.configuration.issueLabels,
 				mergeRequests: true,
 			})
 			tasks.push(task)
