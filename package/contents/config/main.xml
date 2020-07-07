@@ -41,15 +41,6 @@
 		<entry name="icon" type="string">
 			<default>gitlab-icon-symbolic</default>
 		</entry>
-
-		<!-- Deprecated in v3 -->
-		<!-- Only kept for migration -->
-		<entry name="user" type="string">
-			<default></default>
-		</entry>
-		<entry name="repo" type="string">
-			<default></default>
-		</entry>
 	</group>
 
 </kcfg>
