@@ -89,9 +89,10 @@ Item {
 				textRole: "text"
 				property string valueRole: "value"
 				model: issueListView.tagModel
+				property bool populated: false
 
 				onCurrentIndexChanged: {
-					if (currentIndex >= 0) {
+					if (populated && currentIndex >= 0) {
 						var item = model[currentIndex]
 						var itemValue = item[valueRole]
 						tagFilterSelected(itemValue)
@@ -127,6 +128,11 @@ Item {
 					onSelectedTagChanged: {
 						tagComboBox.selectValue(issueListView.selectedTag)
 					}
+				}
+
+				Component.onCompleted: {
+					tagComboBox.selectValue(issueListView.selectedTag)
+					populated = true
 				}
 			}
 		}
