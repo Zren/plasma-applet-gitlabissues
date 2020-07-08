@@ -55,12 +55,12 @@ IssueListView {
 		//--- GitLab
 		// Has any label
 		tags.push({
-			text: i18n("Any"),
+			text: i18n("Any Label"),
 			value: "Any", 
 		})
 		// Has no label
 		tags.push({
-			text: i18n("None"),
+			text: i18n("No Label"),
 			value: "None",
 		})
 		return tags
