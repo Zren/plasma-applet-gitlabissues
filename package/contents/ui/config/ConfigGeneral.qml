@@ -12,6 +12,8 @@ ConfigPage {
 
 	property var cfg_repoList: []
 	property alias cfg_headingText: headingTextField.text
+	property alias cfg_issueSearch: issueSearch.text
+	property alias cfg_issueLabels: issueLabels.text
 	property alias cfg_updateIntervalInMinutes: updateIntervalInMinutesSpinBox.value
 
 	Component.onCompleted: {
@@ -114,6 +116,31 @@ ConfigPage {
 						{ value: "desc", text: i18n("Descending") },
 					]
 				}
+			}
+
+			Kirigami.Separator {
+				Kirigami.FormData.isSection: true
+			}
+
+			ConfigCheckBox {
+				configKey: "showFilter"
+				text: i18n("Show filter control row")
+			}
+
+			TextField {
+				id: issueSearch
+				Kirigami.FormData.label: i18n("Search:")
+				Layout.fillWidth: true
+			}
+			TextField {
+				id: issueLabels
+				Kirigami.FormData.label: i18n("Label Filter:")
+				Layout.fillWidth: true
+				placeholderText: i18n("Label,Label")
+			}
+
+			Kirigami.Separator {
+				Kirigami.FormData.isSection: true
 			}
 
 			ConfigAppletIcon {

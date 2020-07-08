@@ -95,6 +95,37 @@ Item {
 						var item = model[currentIndex]
 						var itemValue = item[valueRole]
 						tagFilterSelected(itemValue)
+						editable = false
+					}
+				}
+
+				function findValue(val) {
+					for (var i = 0; i < model.length; i++) {
+						var item = model[i]
+						var itemValue = item[valueRole]
+						if (itemValue == val) {
+							return i
+						}
+					}
+					return -1
+				}
+
+				function selectValue(val) {
+					var index = findValue(val)
+					if (index >= 0) {
+						if (index != currentIndex) {
+							currentIndex = index
+						}
+					} else {
+						editable = true
+						editText = val
+					}
+				}
+
+				Connections {
+					target: issueListView
+					onSelectedTagChanged: {
+						tagComboBox.selectValue(issueListView.selectedTag)
 					}
 				}
 			}

@@ -25,6 +25,7 @@ IssueListView {
 	onDoSearch: {
 		plasmoid.configuration.issueSearch = searchText
 	}
+	selectedTag: plasmoid.configuration.issueLabels
 	tagModel: {
 		var tags = []
 		tags.push({
