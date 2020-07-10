@@ -84,19 +84,22 @@ Item {
 					}
 				}
 			}
-			PlasmaComponents3.ComboBox {
+			// ComboBox3 auto-closes on click release (KDE Bug #424076)
+			// So we'll use a patched version until it's fixed.
+			// PlasmaComponents3.ComboBox {
+			ComboBox3 {
 				id: tagComboBox
 				textRole: "text"
 				property string valueRole: "value"
 				model: issueListView.tagModel
 				property bool populated: false
+				editable: false
 
 				onCurrentIndexChanged: {
 					if (populated && currentIndex >= 0) {
 						var item = model[currentIndex]
 						var itemValue = item[valueRole]
 						tagFilterSelected(itemValue)
-						editable = false
 					}
 				}
 
@@ -118,7 +121,6 @@ Item {
 							currentIndex = index
 						}
 					} else {
-						editable = true
 						editText = val
 					}
 				}
