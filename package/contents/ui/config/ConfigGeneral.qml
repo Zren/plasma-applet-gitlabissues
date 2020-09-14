@@ -167,6 +167,7 @@ ConfigPage {
 			ConfigCheckBox {
 				configKey: "showBackground"
 				text: i18n("Desktop Widget: Show background")
+				visible: typeof PlasmaCore.Types.ConfigurableBackground === "undefined"
 			}
 		}
 	}
