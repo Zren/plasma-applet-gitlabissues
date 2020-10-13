@@ -1,4 +1,4 @@
-// Version 6
+// Version 7
 
 import QtQuick 2.0
 import QtQuick.Controls 1.0
@@ -167,14 +167,6 @@ Item {
 			color: PlasmaCore.ColorScope.negativeTextColor
 			Layout.fillWidth: true
 		}
-
-		// MessageWidget {
-		// 	visible: issueListView.hasError
-		// 	text: issueListView.errorMessage
-		// 	messageType: error
-		// 	closeButtonVisible: false
-		// 	Layout.fillWidth: true
-		// }
 
 		PlasmaComponents.Button {
 			visible: !issueListView.isSetup
